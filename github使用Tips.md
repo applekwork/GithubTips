@@ -15,7 +15,7 @@ git push -u origin master
 # git修改当前的project提交邮箱的命令为
 git config  --global user.name 你的目标用户名
 # 服务器上的 Git - 生成 SSH 公钥
-[https://git-scm.com/book/zh/v2/服务器上的-Git-生成-SSH-公钥]()
+> https://git-scm.com/book/zh/v2/服务器上的-Git-生成-SSH-公钥
 如前所述，许多 Git 服务器都使用 SSH 公钥进行认证。 为了向 Git 服务器提供 SSH 公钥，如果某系统用户尚未拥有密钥，必须事先为其生成一份。 这个过程在所有操作系统上都是相似的。 首先，你需要确认自己是否已经拥有密钥。 默认情况下，用户的 SSH 密钥存储在其 ~/.ssh 目录下。 进入该目录并列出其中内容，你便可以快速确认自己是否已拥有密钥：
 
 $ cd ~/.ssh

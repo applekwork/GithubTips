@@ -13,5 +13,11 @@ git merge --allow -unrelated histories
 git pull origin master --allow -unrelated-histories
 git push -u origin master
 
+git修改当前的project提交邮箱的命令为：git config  --global user.name 你的目标用户名
+
+       
+
+
+
 
 

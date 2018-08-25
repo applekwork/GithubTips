@@ -54,10 +54,56 @@ ssh-rsa xxxx
 git reset --hard commit_id
 
 git merge --no-ff -m "merge with no-ff" dev
+# 创建Cocoapods的podspec
+1.github上创建自己的共有项目
+2.创建自己的Xcode工程，并提交到该repository
+git tag '1.0.0
+git push --tags
+3.创建podspec文件
+pod spec create xxxx(spec文件名) git@github.com:xx/xx.git 
 
-       
+4.执行如下命令进行校验.spec文件的正确性
+pod lib lint
+ 
+备注：这个命令是本地校验的，还要pod spec lint 这个是本地和远程校验。如果此时我们用pod spec lint会报错，因为我们还有发布一个版本，就是第6步还没做呢。
 
+到这步整个制作过程已经完成接下来让我们发布自己spec
+CocoaPods 0.33中加入了 Trunk 服务，使用 Trunk 服务可以方便的发布自己的Pod。要想使用 Trunk 服务，首先需要使用如下命令注册自己的电脑。这很简单，只要你指明你的邮箱地址（spec文件中的）和名称即可。CocoaPods 会给你填写的邮箱发送验证邮件，点击邮件中的链接就可通过验证。
 
+github上创建一个发布版本
 
+5.pod trunk register applekwork@163.com 'guo' --verbose
+
+6.验证是否注册成功
+pod trunk me
+
+7.发布我们的podspec
+pod trunk push
+
+不过此时我们pod search还搜不到我们的podspec。
+
+可以通过一下两步之后再尝试搜索:
+
+运行pod setup更新本地的spec，再搜索一下试试看。
+删除~/Library/Caches/CocoaPods目录下的search_index.json文件
+pod setup成功后会生成~/Library/Caches/CocoaPods/search_index.json文件。
+终端输入rm ~/Library/Caches/CocoaPods/search_index.json
+删除成功后再执行pod search
+
+`.spec文件：
+Pod::Spec.new do |s|
+s.name         = 'guolib'
+s.version      = '1.0.0'
+s.summary      = 'test测试'
+s.homepage     = 'https://github.com/applekwork/guolib'
+s.license      = 'MIT'
+s.authors      = {'guo' => 'applekwork@163.com'}
+s.platform     = :ios, '9.0'
+s.source       = {:git => 'https://github.com/applekwork/guolib.git', :tag => s.version}
+s.source_files = 'guolib/**/*.{h,m}'
+s.requires_arc = true
+end
+
+`
 
 

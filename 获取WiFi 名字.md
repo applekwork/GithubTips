@@ -2,7 +2,8 @@
 比如 WiFi 的 SSID（即 WiFi 的名称），WiFi 的 BSSID（即 WiFi 的路由器的 Mac 地址）
 //引用头文件<SystemConfiguration/CaptiveNetwork.h>
 
-```- (NSDictionary*)requestWiFiinfo {
+```
+- (NSDictionary*)requestWiFiinfo {
     CFArrayRef wifis = CNCopySupportedInterfaces();
     if (!wifis || CFArrayGetCount(wifis) == 0) {
         return nil;
@@ -28,6 +29,45 @@
 Access WiFi Information => YES
 
 至此，我们就可以正常在 iOS 12+ 中获取 WiFi 的信息了。
+# SecRandomCopyBytes 生成伪随机数
+
+在iOS中，生成伪随机数可以使用这么几个函数：rand()、random()、arc4random()。另外我们知道随机数是密码技术的核心部分，所以 Apple 也为我们提供了相应的生成随机数的方法，即 SecRandomCopyBytes，这个方法位于 Security.framework 中，所以使用时需要先导入这个库，使用的方法如下：
+
+`
+```
++ (NSString *)generateRandom {
+
+    static int size = 8;
+    uint8_t randomBytes[size];
+    int result = SecRandomCopyBytes(kSecRandomDefault, size, randomBytes);
+    if (result == errSecSuccess) {
+        NSMutableString *randomString = [[NSMutableString alloc] initWithCapacity:size * 2];
+        for (int i = 0; i < size; i++) {
+            [randomString appendFormat:@"%02x", randomBytes[i]];
+        }
+
+        return randomString;
+    } else {
+        return nil;
+    }
+}
 
 
+````
+这里我们生成一个 8 字节长的uint8_t数组，然后将其转换成 hex 字符串得到一个长度16的随机字条串。另外这个函数也可以作为生成 UUID 的辅助操作，如下代码所示：
+
+
+```
++ (NSString*)generateCryptoSecureUUID
+{
+    unsigned char bytes[16];
+    int result = SecRandomCopyBytes(kSecRandomDefault, 16, bytes);
+    if (result != noErr) {
+        return nil;
+    }
+    return [[NSUUID alloc] initWithUUIDBytes:bytes].UUIDString;
+}
+
+
+```
 

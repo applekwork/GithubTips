@@ -35,7 +35,6 @@ Objective-C 中主要通过 **NS_DESIGNATED_INITIALIZER** 宏来实现指定构�
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithName:(NSString *)name NS_DESIGNATED_INITIALIZER;
 
-如果调用者使用init 初始化，编译器就会给出一个编译错误 ‘init is unvailable’![](media/15460508546909/15460512389432.jpg)
-。使用NS_UNAVAILABLE后，就不需要在.m中重写父类初始化函数了。如果要允许调用者使用init,.h文件里去掉方法~~- (instancetype)init NS_UNAVAILABLE;~~，同时.m文件中重写父类的初始化函数，否则就会报警告。
+如果调用者使用init 初始化，编译器就会给出一个编译错误 ‘init is unvailable’。使用NS_UNAVAILABLE后，就不需要在.m中重写父类初始化函数了。如果要允许调用者使用init,.h文件里去掉方法~~- (instancetype)init NS_UNAVAILABLE;~~，同时.m文件中重写父类的初始化函数，否则就会报警告。
 
 

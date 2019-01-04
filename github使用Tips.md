@@ -51,13 +51,24 @@ ssh-rsa xxxx
 
 场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考版本回退一节， 不过前提是没有推送到远程库。git reset --hard ，HEAD表示当前版本，上一个版本就是HEAD^，上上一个版本就是HEAD^^
 `git reset --hard HEAD^`
-git reset --hard commit_id
+git reset --hard commit_id (版本号)
 
 git merge --no-ff -m "merge with no-ff" dev
+
+# git 暂时封存代码
+git stash save "test-cmd-stash" //增加注释
+
+git stash list
+
+git stash pop //这个指令将缓存堆栈中的第一个stash删除，并将对应修改应用到当前的工作目录下
+
+git stash apply //将缓存堆栈中的stash多次应用到工作目录中，但并不删除stash拷贝
+
+在使用git stash apply命令时可以通过名字指定使用哪个stash，默认使用最近的stash（即stash@{0}）
 # 创建Cocoapods的podspec
 1.github上创建自己的共有项目
 2.创建自己的Xcode工程，并提交到该repository
-git tag '1.0.0
+git tag '1.0.0‘
 git push --tags
 3.创建podspec文件
 pod spec create xxxx(spec文件名) git@github.com:xx/xx.git 
@@ -65,7 +76,7 @@ pod spec create xxxx(spec文件名) git@github.com:xx/xx.git
 4.执行如下命令进行校验.spec文件的正确性
 pod lib lint
  
-备注：这个命令是本地校验的，还要pod spec lint 这个是本地和远程校验。如果此时我们用pod spec lint会报错，因为我们还有发布一个版本，就是第6步还没做呢。
+备注：这个命令是本地校验的，还要pod spec lint 这个是本地和远程校验。如果此时我们用pod spec lint会报错，因为我们还没有发布一个版本，就是第6步还没做呢。
 
 到这步整个制作过程已经完成接下来让我们发布自己spec
 CocoaPods 0.33中加入了 Trunk 服务，使用 Trunk 服务可以方便的发布自己的Pod。要想使用 Trunk 服务，首先需要使用如下命令注册自己的电脑。这很简单，只要你指明你的邮箱地址（spec文件中的）和名称即可。CocoaPods 会给你填写的邮箱发送验证邮件，点击邮件中的链接就可通过验证。
